@@ -4,10 +4,6 @@
   font-family: sans-serif;
 }
 
-#abstrcationDisplay {
-  text-align: center;
-}
-
 #canvas {
   padding-left: 0;
   padding-right: 0;
@@ -17,7 +13,7 @@
 }
 
 #hidden {
-  display: hidden;
+  display: none;
 }
 
 #controls {
@@ -25,11 +21,37 @@
   width: 500px;
 }
 
-input, button {
+#urlInput, #pixelDiv, #filename, button {
   display: block;
   background-color: white;
   width: 500px;
   border: 1px solid #181818;
-  padding: 5px;
+  padding: 5px 0px 5px 0px;
   margin: 10px 0px 10px 0px;
+}
+
+#urlInput, #filename {
+  width: 490px;
+  padding: 5px;
+}
+
+#pixelDiv, #download {
+  display: table;
+}
+
+#pixelation, #pixelationDisplay {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#pixelation {
+  width: 425px;
+  padding: 5px;
+  background-color: white;
+}
+
+#pixelationDisplay {
+  width: 30px;
+  margin-left: 10px;
+  border: none;
 }
