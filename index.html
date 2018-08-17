@@ -1,61 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>8-bit</title>
-  <link rel="stylesheet" type="text/css" href="style.css" />
-</head>
-<body>
-  <div id="controls">
-    <div class="form-group">
-      <br />
-      <label for="url">Image URL</label>
-      <input type="url" class="form-control" id="urlInput">
-      <button id="submitImage">Upload</button>
+  <head>
+    <meta charset="UTF-8">
+    <title>8-bit</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div id="controls">
+      <div class="form-group">
+        <br />
+        <label for="url">Image URL</label>
+        <input type="url" class="form-control" id="urlInput">
+        <button id="submitImage">Upload</button>
+      </div>
+      <div class="form-group">
+        <form>
+          <label for="pixelation">Pixelation</label>
+          <!-- IDEA: Sliding animation for when value changes? -->
+          <input name="slider" id="pixelation" type="range" min="1" max="100" step='.1' value="50" oninput="pixels.value=slider.value" />
+          <input name="pixels" type="text" id="pixelationDisplay" value="50" for="slider" oninput="slider.value=pixels.value; updateImage()" />
+        </form>
+      </div> <!-- Display hidden canvas with full size pixelated image / use for save button -->
     </div>
-    <div class="form-group">
-      <form>
-        <label for="pixelation">Pixelation</label>
-        <!-- IDEA: Sliding animation for when value changes? -->
-        <input name="slider" id="pixelation" type="range" min="1" max="100" step='.1' value="50" oninput="pixels.value=slider.value" />
-        <input name="pixels" type="text" id="pixelationDisplay" value="50" for="slider" oninput="slider.value=pixels.value" />
-      </form>
-    </div> <!-- Display hidden canvas with full size pixelated image / use for save button -->
-  </div>
 
-  <canvas id="canvas"></canvas>
-  <canvas id="hidden"></canvas>
+    <canvas id="canvas"></canvas>
+    <canvas id="hidden"></canvas>
 
-  <script src="./8bit.js"></script>
-  <script>
-    // TODO: Add upload custom image option
-    document.addEventListener("DOMContentLoaded", function() { updateImage() });
-    document.getElementById('submitImage').addEventListener("click", updateImage);
-    document.getElementById('pixelation').addEventListener("input", updateImage);
+    <script src="./8bit.js"></script>
+    <script>
+      // TODO: Add upload custom image option
+      document.addEventListener("DOMContentLoaded", function() { updateImage() });
+      document.getElementById('submitImage').addEventListener("click", updateImage);
+      document.getElementById('pixelation').addEventListener("input", updateImage);
 
-    function updateImage() {
-      // pixelation value
-      var val = document.getElementById('pixelation').value;
-      document.getElementById('pixelationDisplay').innerHTML = val;
+      function updateImage() {
+        // pixelation value
+        var val = document.getElementById('pixelation').value;
+        document.getElementById('pixelationDisplay').innerHTML = val;
 
-      // Image update
-      var img = new Image();
-      var defaultImage = "anon.jpg"; // default image URL
-      img.onload = function() {
-        eightBit(document.getElementById('canvas'), img, val)
-      };
-      var url = document.getElementById("urlInput").value;
-      img.src = url || defaultImage;
-      img.width = "500";
-      img.height = "300";
-      // TODO: Somehow make the image keep it's dimensions in a smaller display (export 1920 x 1080!)
-
-      var hiddenImage = new Image();
-      hiddenImage.onload = function() {
-        eightBit(document.getElementById('hidden'), hiddenImage, val)
-      };
-      hiddenImage.src = url || defaultImage;
-    }
-  </script>
-</body>
+        // Image update
+        var img = new Image();
+        var defaultImage = "anon.jpg"; // default image URL
+        img.onload = function() {
+          eightBit(document.getElementById('canvas'), img, val)
+        };
+        var url = document.getElementById("urlInput").value;
+        img.src = url || defaultImage;
+        img.width = "500";
+        img.height = "300";
+        // TODO: Somehow make the image keep it's dimensions in a smaller display (export 1920 x 1080!)
+      }
+    </script>
+  </body>
 </html>
