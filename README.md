@@ -1,2 +1,3 @@
-# image-to-8bit
-Pixelates an image
+# 8Bit
+
+This is a functioning implementation of the 8-bit API
