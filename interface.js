@@ -2,12 +2,15 @@ document.addEventListener("DOMContentLoaded", function() { updateImage(); update
 document.getElementById('imageInput').addEventListener("input", updateImage);
 document.getElementById('clear').addEventListener("click", updateImage);
 document.getElementById('pixelation').addEventListener("input", updateImage);
+document.getElementById('pixelationDisplay').addEventListener("input", updateImage);
 document.getElementById('filename').addEventListener("input", updateSaveButton);
 
 function updateImage() {
   // pixelation value
-  var val = document.getElementById('pixelation').value;
-  document.getElementById('pixelationDisplay').innerHTML = val;
+  var val = document.getElementById('pixelationDisplay').value;
+  if (val == "") {
+    val = "1";
+  }
 
   // Image update
   var img = new Image();
@@ -43,6 +46,25 @@ function updateImage() {
   }
 }
 
+function updateSlider() {
+  var pixelation = document.getElementById("pixelation");
+  var pixelText = document.getElementById("pixelationDisplay").value;
+
+  if (pixelText == "") {
+    pixelText = "1";
+  }
+
+  if (parseInt(pixelation.value) > parseInt(pixelText)) {
+    pixelation.value--;
+  } else if (parseInt(pixelation.value) < parseInt(pixelText)) {
+    pixelation.value++;
+  }
+
+  if (pixelation.value != pixelText) {
+    setTimeout(updateSlider, 5);
+  }
+}
+
 function updateSaveButton() {
   var save = document.getElementById("save");
   var filename = document.getElementById("filename");
@@ -73,3 +95,17 @@ function stopEnter(evt) {
 }
 
 document.onkeypress = stopEnter;
+
+function isNumber(evt) {
+  var num = document.getElementById("pixelationDisplay");
+  evt = (evt) ? evt : window.event;
+  var charCode = (evt.which) ? evt.which : evt.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    // Only allows numbers to be entered into pixelation field
+    return false;
+  } else if (parseInt(num.value + String.fromCharCode(charCode)) > 100) {
+    // Stops total values from being > 100
+    return false;
+  }
+  return true;
+}
