@@ -9,9 +9,12 @@
     <div id="controls">
       <div class="form-group">
         <br />
-        <label for="url">Image URL</label>
-        <input type="url" class="form-control" id="urlInput">
-        <button id="submitImage">Upload</button>
+        <label for="imageInput">Image Location</label>
+        <div class="file-input-wrapper">
+          <button id="submitImage">Select Image</button>
+          <input type="file" id="imageInput" />
+        </div>
+        <button id="clear" onclick="imageInput.value=''">Clear</button>
       </div>
 
       <div class="form-group">
@@ -40,7 +43,9 @@
     <script>
       // TODO: Add upload custom image option
       document.addEventListener("DOMContentLoaded", function() { updateImage() });
-      document.getElementById('submitImage').addEventListener("click", updateImage);
+      document.getElementById('submitImage').addEventListener("click", updateImage); // NOTE: Not working?
+      document.getElementById('imageInput').addEventListener("click", updateImage);  // NOTE: Not working?
+      document.getElementById('clear').addEventListener("click", updateImage);
       document.getElementById('pixelation').addEventListener("input", updateImage);
 
       function updateImage() {
@@ -54,8 +59,7 @@
         img.onload = function() {
           eightBit(document.getElementById('canvas'), img, val)
         };
-        var url = document.getElementById("urlInput").value;
-        img.src = url || defaultImage;
+
         img.width = "500";
         img.height = "300";
         // TODO: Somehow make the image keep it's dimensions in a smaller display (export 1920 x 1080!)
@@ -66,9 +70,24 @@
         hiddenImage.onload = function() {
           eightBit(document.getElementById('hidden'), hiddenImage, val)
         };
-        hiddenImage.src = url || defaultImage;
+
+        var file = document.getElementById("imageInput");
+        if (file.files && file.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            img.src = e.target.result;
+            hiddenImage.src = e.target.result;
+          }
+
+          reader.readAsDataURL(file.files[0]);
+        } else {
+          img.src = defaultImage;
+          hiddenImage.src = defaultImage;
+        }
       }
 
+      // TODO: FIX!!!
       function downloadCanvas(link, canvasId, filename) {
         link.href = document.getElementById(canvasId).toDataURL();
         link.download = filename;
