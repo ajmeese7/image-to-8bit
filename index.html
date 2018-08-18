@@ -43,8 +43,7 @@
     <script>
       // TODO: Add upload custom image option
       document.addEventListener("DOMContentLoaded", function() { updateImage() });
-      document.getElementById('submitImage').addEventListener("click", updateImage); // NOTE: Not working?
-      document.getElementById('imageInput').addEventListener("click", updateImage);  // NOTE: Not working?
+      document.getElementById('imageInput').addEventListener("input", updateImage);
       document.getElementById('clear').addEventListener("click", updateImage);
       document.getElementById('pixelation').addEventListener("input", updateImage);
 
