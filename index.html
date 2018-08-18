@@ -32,7 +32,9 @@
       <div class="form-group">
         <label for="filename">File Name</label>
         <input type="text" id="filename" />
-        <button id="save">Save</button>
+        <a href="#" id="saveWrapper" style="text-decoration: none;">
+          <button id="save">Save</button>
+        </a>
       </div>
     </div>
 
@@ -59,9 +61,9 @@
           eightBit(document.getElementById('canvas'), img, val)
         };
 
+        // IDEA: Find a way to display a better preview?
         img.width = "500";
         img.height = "300";
-        // TODO: Somehow make the image keep it's dimensions in a smaller display (export 1920 x 1080!)
 
         // IDEA: Instead, have the canvas cover the whole page and have a slide-
         //       out side menu that has the options (actually shows changes)
@@ -98,16 +100,15 @@
         }
       }
 
-      // TODO: FIX!!!
-      function downloadCanvas(link, canvasId, filename) {
-        link.href = document.getElementById(canvasId).toDataURL();
-        link.download = filename;
-      }
-
-      document.getElementById('save').addEventListener('click', function() {
+      var save = document.getElementById('saveWrapper');
+      save.addEventListener('click', function(e) {
         var filename = document.getElementById("filename").value;
-        downloadCanvas(this, 'hidden', filename + ".png");
-      }, false);
+        if (filename != "") {
+          var dataURL = hidden.toDataURL('image/png');
+          save.href = dataURL;
+          save.download = filename + ".png";
+        }
+      });
 
       // Stops `Enter` key press (so form won't submit)
       function stopEnter(evt) {
