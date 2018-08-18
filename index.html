@@ -41,11 +41,11 @@
 
     <script src="./8bit.js"></script>
     <script>
-      // TODO: Add upload custom image option
-      document.addEventListener("DOMContentLoaded", function() { updateImage() });
+      document.addEventListener("DOMContentLoaded", function() { updateImage(); updateSaveButton() });
       document.getElementById('imageInput').addEventListener("input", updateImage);
       document.getElementById('clear').addEventListener("click", updateImage);
       document.getElementById('pixelation').addEventListener("input", updateImage);
+      document.getElementById('filename').addEventListener("input", updateSaveButton);
 
       function updateImage() {
         // pixelation value
@@ -83,6 +83,18 @@
         } else {
           img.src = defaultImage;
           hiddenImage.src = defaultImage;
+        }
+      }
+
+      function updateSaveButton() {
+        var save = document.getElementById("save");
+        var filename = document.getElementById("filename");
+        if (filename.value == "") {
+          save.disabled = true;
+          save.style.cursor = "not-allowed";
+        } else {
+          save.disabled = false;
+          save.style.cursor = "pointer";
         }
       }
 
