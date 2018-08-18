@@ -21,7 +21,7 @@
   width: 500px;
 }
 
-#urlInput, #pixelDiv, #filename, button {
+#pixelDiv, #filename, button {
   display: block;
   background-color: white;
   width: 500px;
@@ -30,7 +30,7 @@
   margin: 10px 0px 10px 0px;
 }
 
-#urlInput, #filename {
+#filename {
   width: 490px;
   padding: 5px;
 }
@@ -75,9 +75,9 @@
   width: 200px;
   height: 40px;
 }
+button:hover,
 .file-input-wrapper:hover > #submitImage,
-#clear:hover,
-#save:hover {
+#imageInput:hover {
   cursor: pointer;
   background-color: #aaa;
   /* TODO: Prettier color! */
