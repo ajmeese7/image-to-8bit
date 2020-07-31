@@ -83,7 +83,7 @@ save.addEventListener('click', function(e) {
   if (filename != "") {
     var dataURL = hidden.toDataURL('image/png');
     save.href = dataURL;
-    save.download = filename + ".png";
+    save.download = `${filename.split(' ').join('_')}.png`;
   }
 });
 
