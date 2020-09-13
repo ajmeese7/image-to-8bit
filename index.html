@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <title>8-bit</title>
+
+    <!-- https://css-tricks.com/emojis-as-favicons/ -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
@@ -14,7 +17,7 @@
           <button id="submitImage">Select Image</button>
           <input type="file" id="imageInput" />
         </div>
-        <button id="clear" onclick="imageInput.value=''">Clear</button>
+        <button id="clear" title="Resets the input image" onclick="imageInput.value=''">Clear</button>
       </div>
 
       <div class="form-group">

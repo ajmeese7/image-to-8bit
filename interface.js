@@ -1,23 +1,18 @@
 document.addEventListener("DOMContentLoaded", function() { updateImage(); updateSaveButton() });
-document.getElementById('imageInput').addEventListener("input", updateImage);
-document.getElementById('clear').addEventListener("click", updateImage);
-document.getElementById('pixelation').addEventListener("input", updateImage);
-document.getElementById('pixelationDisplay').addEventListener("input", updateImage);
-document.getElementById('filename').addEventListener("input", updateSaveButton);
+document.getElementById("imageInput").addEventListener("input", updateImage);
+document.getElementById("clear").addEventListener("click", updateImage);
+document.getElementById("pixelation").addEventListener("input", updateImage);
+document.getElementById("pixelationDisplay").addEventListener("input", updateImage);
+document.getElementById("filename").addEventListener("input", updateSaveButton);
 
 function updateImage() {
-  // pixelation value
-  var val = document.getElementById('pixelationDisplay').value;
-  if (val == "") {
-    val = "1";
-  }
+  let pixelation = document.getElementById("pixelationDisplay").value;
+  if (!pixelation) pixelation = "1";
 
   // Image update
-  var img = new Image();
-  var defaultImage = "anon.jpg"; // default image URL
-  img.onload = function() {
-    eightBit(document.getElementById('canvas'), img, val)
-  };
+  let img = new Image();
+  let defaultImage = "firewatch.png";
+  img.onload = () => eightBit(document.getElementById("canvas"), img, pixelation);
 
   // IDEA: Find a way to display a better preview?
   img.width = "500";
@@ -25,16 +20,15 @@ function updateImage() {
 
   // IDEA: Instead, have the canvas cover the whole page and have a slide-
   //       out side menu that has the options (actually shows changes)
-  var hiddenImage = new Image();
-  hiddenImage.onload = function() {
-    eightBit(document.getElementById('hidden'), hiddenImage, val)
+  let hiddenImage = new Image();
+  hiddenImage.onload = () => {
+    eightBit(document.getElementById("hidden"), hiddenImage, pixelation)
   };
 
-  var file = document.getElementById("imageInput");
+  let file = document.getElementById("imageInput");
   if (file.files && file.files[0]) {
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
       img.src = e.target.result;
       hiddenImage.src = e.target.result;
     }
@@ -47,12 +41,9 @@ function updateImage() {
 }
 
 function updateSlider() {
-  var pixelation = document.getElementById("pixelation");
-  var pixelText = document.getElementById("pixelationDisplay").value;
-
-  if (pixelText == "") {
-    pixelText = "1";
-  }
+  let pixelation = document.getElementById("pixelation");
+  let pixelText = document.getElementById("pixelationDisplay").value;
+  if (!pixelText) pixelText = "1";
 
   if (parseInt(pixelation.value) > parseInt(pixelText)) {
     pixelation.value--;
@@ -60,46 +51,47 @@ function updateSlider() {
     pixelation.value++;
   }
 
-  if (pixelation.value != pixelText) {
+  if (pixelation.value != pixelText)
     setTimeout(updateSlider, 5);
-  }
 }
 
 function updateSaveButton() {
-  var save = document.getElementById("save");
-  var filename = document.getElementById("filename");
-  if (filename.value == "") {
-    save.disabled = true;
-    save.style.cursor = "not-allowed";
-  } else {
+  let save = document.getElementById("save");
+  let filename = document.getElementById("filename");
+  if (filename.value) {
     save.disabled = false;
+    save.title = "Download the image";
     save.style.cursor = "pointer";
+  } else {
+    save.disabled = true;
+    save.title = "Name the file to download";
+    save.style.cursor = "not-allowed";
   }
 }
 
-var save = document.getElementById('saveWrapper');
-save.addEventListener('click', function(e) {
-  var filename = document.getElementById("filename").value;
-  if (filename != "") {
-    var dataURL = hidden.toDataURL('image/png');
-    save.href = dataURL;
-    save.download = `${filename.split(' ').join('_')}.png`;
-  }
+var save = document.getElementById("saveWrapper");
+save.addEventListener("click", evt => {
+  let filename = document.getElementById("filename").value;
+  if (!filename) return;
+
+  let dataURL = hidden.toDataURL("image/png");
+  save.href = dataURL;
+  save.download = `${filename.split(' ').join('_')}.png`;
 });
 
 // Stops `Enter` key press (so form won't submit)
 function stopEnter(evt) {
-  var evt = (evt) ? evt : ((event) ? event : null);
-  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-  if ((evt.keyCode == 13) && (node.type=="text"))  {return false;}
+  let node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+  if ((evt.keyCode == 13) && (node.type == "text")) return false;
 }
 
 document.onkeypress = stopEnter;
 
 function isNumber(evt) {
-  var num = document.getElementById("pixelationDisplay");
-  evt = (evt) ? evt : window.event;
-  var charCode = (evt.which) ? evt.which : evt.keyCode;
+  if (!evt) evt = window.event;
+  let num = document.getElementById("pixelationDisplay");
+  let charCode = (evt.which) ? evt.which : evt.keyCode;
+
   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
     // Only allows numbers to be entered into pixelation field
     return false;
