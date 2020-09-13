@@ -24,16 +24,18 @@
         <form>
           <label for="pixelation">Pixelation</label>
           <div id="pixelDiv">
-            <input name="slider" id="pixelation" type="range" min="1" max="100" step="1" value="50" oninput="pixels.value=slider.value" />
+            <input name="slider" id="pixelation" type="range" min="1" max="100" step="1" value="50" 
+              oninput="pixels.value=slider.value" title="Drag to change pixelation" />
             <input name="pixels" type="text" id="pixelationDisplay" value="50" for="slider"
-              oninput="updateImage(); updateSlider();" onkeypress="return isNumber(event)" />
+              oninput="updateImage(); updateSlider();" onkeypress="return isNumber(event)" 
+              title="Type to change pixelation" />
           </div>
         </form>
       </div>
 
       <div class="form-group">
         <label for="filename">File Name</label>
-        <input type="text" id="filename" />
+        <input type="text" id="filename" title="Name the image to download it" />
         <a href="#" id="saveWrapper" style="text-decoration: none;">
           <button id="save">Save</button>
         </a>
