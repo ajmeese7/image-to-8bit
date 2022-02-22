@@ -22,13 +22,13 @@
 
       <div class="form-group">
         <form>
-          <label for="pixelation">Pixelation</label>
-          <div id="pixelDiv">
-            <input name="slider" id="pixelation" type="range" min="1" max="100" step="1" value="50" 
-              oninput="pixels.value=slider.value" title="Drag to change pixelation" />
-            <input name="pixels" type="text" id="pixelationDisplay" value="50" for="slider"
-              oninput="updateImage(); updateSlider();" onkeypress="return isNumber(event)" 
-              title="Type to change pixelation" />
+          <label for="quality">Image Quality</label>
+          <div id="qualityDiv">
+            <input name="slider" id="quality" type="range" min="1" max="100" step="1" value="50"
+              oninput="pixels.value=slider.value" title="Drag to change image quality" />
+            <input name="pixels" type="text" id="qualityDisplay" value="50" for="slider"
+              oninput="updateImage(); updateSlider();" onkeypress="return isNumber(event)"
+              title="Type to change image quality" />
           </div>
         </form>
       </div>

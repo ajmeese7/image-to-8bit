@@ -21,7 +21,7 @@
   width: 500px;
 }
 
-#pixelDiv, #filename, button {
+#qualityDiv, #filename, button {
   display: block;
   background-color: white;
   width: 500px;
@@ -35,22 +35,22 @@
   padding: 5px;
 }
 
-#pixelDiv, #download {
+#qualityDiv, #download {
   display: table;
 }
 
-#pixelation, #pixelationDisplay {
+#quality, #qualityDisplay {
   display: table-cell;
   vertical-align: middle;
 }
 
-#pixelation {
+#quality {
   width: 425px;
   padding: 5px;
   background-color: white;
 }
 
-#pixelationDisplay {
+#qualityDisplay {
   width: 30px;
   margin-left: 10px;
   border: none;

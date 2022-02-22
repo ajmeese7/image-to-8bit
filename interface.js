@@ -1,18 +1,20 @@
-document.addEventListener("DOMContentLoaded", function() { updateImage(); updateSaveButton() });
+document.addEventListener("DOMContentLoaded", () => {
+  updateImage();
+  updateSaveButton();
+});
 document.getElementById("imageInput").addEventListener("input", updateImage);
 document.getElementById("clear").addEventListener("click", updateImage);
-document.getElementById("pixelation").addEventListener("input", updateImage);
-document.getElementById("pixelationDisplay").addEventListener("input", updateImage);
+document.getElementById("quality").addEventListener("input", updateImage);
+document.getElementById("qualityDisplay").addEventListener("input", updateImage);
 document.getElementById("filename").addEventListener("input", updateSaveButton);
 
 function updateImage() {
-  let pixelation = document.getElementById("pixelationDisplay").value;
-  if (!pixelation) pixelation = "1";
+  const quality = document.getElementById("qualityDisplay").value || "1";
 
   // Image update
-  let img = new Image();
-  let defaultImage = "firewatch.png";
-  img.onload = () => eightBit(document.getElementById("canvas"), img, pixelation);
+  const img = new Image();
+  const defaultImage = "firewatch.png";
+  img.onload = () => eightBit(document.getElementById("canvas"), img, quality);
 
   // IDEA: Find a way to display a better preview?
   img.width = "500";
@@ -20,14 +22,14 @@ function updateImage() {
 
   // IDEA: Instead, have the canvas cover the whole page and have a slide-
   //       out side menu that has the options (actually shows changes)
-  let hiddenImage = new Image();
+  const hiddenImage = new Image();
   hiddenImage.onload = () => {
-    eightBit(document.getElementById("hidden"), hiddenImage, pixelation)
+    eightBit(document.getElementById("hidden"), hiddenImage, quality)
   };
 
-  let file = document.getElementById("imageInput");
+  const file = document.getElementById("imageInput");
   if (file.files && file.files[0]) {
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (e) => {
       img.src = e.target.result;
       hiddenImage.src = e.target.result;
@@ -41,23 +43,22 @@ function updateImage() {
 }
 
 function updateSlider() {
-  let pixelation = document.getElementById("pixelation");
-  let pixelText = document.getElementById("pixelationDisplay").value;
-  if (!pixelText) pixelText = "1";
+  let quality = document.getElementById("quality");
+  const qualityText = document.getElementById("qualityDisplay").value || "1";
 
-  if (parseInt(pixelation.value) > parseInt(pixelText)) {
-    pixelation.value--;
-  } else if (parseInt(pixelation.value) < parseInt(pixelText)) {
-    pixelation.value++;
+  if (parseInt(quality.value) > parseInt(qualityText)) {
+    quality.value--;
+  } else if (parseInt(quality.value) < parseInt(qualityText)) {
+    quality.value++;
   }
 
-  if (pixelation.value != pixelText)
+  if (quality.value != qualityText)
     setTimeout(updateSlider, 5);
 }
 
 function updateSaveButton() {
-  let save = document.getElementById("save");
-  let filename = document.getElementById("filename");
+  const save = document.getElementById("save");
+  const filename = document.getElementById("filename");
   if (filename.value) {
     save.disabled = false;
     save.title = "Download the image";
@@ -69,14 +70,14 @@ function updateSaveButton() {
   }
 }
 
-var save = document.getElementById("saveWrapper");
-save.addEventListener("click", evt => {
+const saveWrapper = document.getElementById("saveWrapper");
+saveWrapper.addEventListener("click", evt => {
   let filename = document.getElementById("filename").value;
   if (!filename) return;
 
-  let dataURL = hidden.toDataURL("image/png");
-  save.href = dataURL;
-  save.download = `${filename.split(' ').join('_')}.png`;
+  const dataURL = hidden.toDataURL("image/png");
+  saveWrapper.href = dataURL;
+  saveWrapper.download = `${filename.split(' ').join('_')}.png`;
 });
 
 // Stops `Enter` key press (so form won't submit)
@@ -89,13 +90,13 @@ document.onkeypress = stopEnter;
 
 function isNumber(evt) {
   if (!evt) evt = window.event;
-  let num = document.getElementById("pixelationDisplay");
-  let charCode = (evt.which) ? evt.which : evt.keyCode;
+  const num = document.getElementById("qualityDisplay").value;
+  const charCode = (evt.which) ? evt.which : evt.keyCode;
 
   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-    // Only allows numbers to be entered into pixelation field
+    // Only allows numbers to be entered into quality field
     return false;
-  } else if (parseInt(num.value + String.fromCharCode(charCode)) > 100) {
+  } else if (parseInt(num + String.fromCharCode(charCode)) > 100) {
     // Stops total values from being > 100
     return false;
   }
